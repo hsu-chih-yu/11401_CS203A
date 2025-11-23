@@ -44,7 +44,7 @@ int main(void) {
     }
 
     // String keys (Non-integer keys)
-    const char* str_keys[] = {"cat", "dog", "bat", "cow", "ant", "owl", "bee", "hen", "pig", "fox"};
+    const char* str_keys[] = {"cat", "act", "dog", "bat", "cow", "ant", "owl", "bee", "hen", "pig", "fox"};
     num_keys = sizeof(str_keys) / sizeof(str_keys[0]);
 
     for (int s = 0; s < num_sizes; s++) {
