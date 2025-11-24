@@ -9,18 +9,33 @@
    Development History:
     - 2025/11/11: Initial implementation
     - 2025/11/17: Refactored to use hash_fn.hpp
-
-   Developer: Yu-Feng Huang <yfhuang@saturn.yzu.edu.tw>
+    - 2025/11/23: Implemented hash functions for integer and string.
+   
+    Developer: 許芷瑜 <s1131456@mail.yzu.edu.tw>
  */
 #include "hash_fn.hpp"
 
 int myHashInt(int key, int m) {
-    // TODO: replace with your own design
-    return key % m;  // basic division method
+    int digitProduct = 1;
+    if(key % 10 == 0){
+        key += 1;
+    }
+    while(key){
+        digitProduct *=  (key % 10);
+        key /= 10;
+    }
+
+    return digitProduct % m;
 }
 
 int myHashString(const std::string& str, int m) {
-    unsigned long hash = 0;
-    // TODO: replace with your own design
-    return static_cast<int>(hash % m);  // basic division method
+    unsigned long weightedSum = 0;
+    int position = 1;
+
+    for(char c : str){
+        weightedSum += ((unsigned char)c - 'a' + 1) * position;
+        position++;
+    }
+
+    return static_cast<int>(weightedSum % m);
 }
