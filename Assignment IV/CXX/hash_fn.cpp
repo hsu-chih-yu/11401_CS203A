@@ -16,28 +16,33 @@
  */
 #include "hash_fn.hpp"
 
+/*
+    Uses a hybrid approach: multiplies the accumulator by a prime (31) 
+    and adds the current digit. This ensures zero-digits don't zero out the hash.
+ */
 int myHashInt(int key, int m) {
     unsigned long digitProduct = 1;
     int privitiveValue = 31;
 
-    if(key % 10 == 0){
-        key += 1;
-    }
-
     while(key){
+        // Logic: Accumulate hash by mixing current value with prime and adding the digit
         digitProduct = digitProduct * privitiveValue + (key % 10);
         key /= 10;
     }
 
     return digitProduct % m;
 }
-
+/*
+    Implements the standard Polynomial Rolling Hash algorithm using prime 31.    
+*/
 int myHashString(const std::string& str, int m) {
     unsigned long weightedSum = 0;
     int position = 1;
     int privitiveValue = 31;
 
     for(char c : str){
+        // Formula: hash = (hash * 31) + (char * position)
+        // 31 is an odd prime that reduces collisions and works well for strings
         weightedSum = weightedSum * privitiveValue + ((unsigned char)c) * position;
         position++;
     }
