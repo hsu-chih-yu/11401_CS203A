@@ -40,7 +40,7 @@ int main() {
     }
 
     // String keys (Non-integer keys)
-    std::vector<std::string> strKeys = {"cat", "dog", "bat", "cow", "ant", "owl", "bee", "hen", "pig", "fox"};
+    std::vector<std::string> strKeys = {"cat", "act", "dog", "bat", "cow", "ant", "owl", "bee", "hen", "pig", "fox"};
     for (int m : sizes) {
         std::cout << "=== String Hash (m = " << m << ") ===\n";
         std::cout << "Key\tIndex\n";
