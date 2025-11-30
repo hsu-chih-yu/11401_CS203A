@@ -1,44 +1,48 @@
 # Connect to GitHub with VSCode
 
+**Development Environment:**
+- **OS:** Windows 10/11
+- **Editor:** Visual Studio Code
+- **Terminal:** PowerShell
+- **Git:** Git for Windows
+
 ## Prerequisites
-Before you begin, ensure you have the following:
-- Visual Studio Code installed on your computer. [Download VS Code here](https://code.visualstudio.com/)
-- Git installed and configured on your system. [Download Git here](https://git-scm.com/).
+Before beginning the assignment, I ensured I had the following:
+- Visual Studio Code installed.
+- Git installed and configured on my system (`git config --global user.name` and `user.email`).
 - A GitHub account.
 
-## Steps to Connect to GitHub
+## Steps I Took to Connect to GitHub
 
-1. **Install the GitHub Extension for VSCode**
-    - Open VSCode.
-    - Go to the Extensions view by clicking on the Extensions icon in the Activity Bar on the side of the window.
-    - Search for "GitHub Pull Requests and Issues" and install the extension.
+1. **Install the GitHub Extension**
+   - I opened VSCode and went to the **Extensions** view.
+   - I searched for and installed **"GitHub Pull Requests and Issues"** to integrate Git features directly into the editor.
 
 2. **Sign in to GitHub**
-    - Open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on macOS).
-    - Type `GitHub: Sign in` and select the option.
-    - Follow the prompts to authenticate with your GitHub account.
+   - I clicked the **Accounts** icon (bottom left) and selected **Sign in with GitHub**.
+   - I followed the browser prompts to authorize VSCode.
 
-3. **Clone a Repository**
-    - In VSCode, open the Command Palette.
-    - Type `Git: Clone` and select the option.
-    - Paste the URL of your GitHub repository when prompted.
-    - Choose a local folder where the repository will be cloned.
+3. **Clone the Repository**
+   - I opened the Command Palette (`Ctrl+Shift+P`) and typed `Git: Clone`.
+   - I pasted the assignment repository URL.
+   - I selected a local folder on my Windows machine to store the project.
 
 4. **Open the Repository**
-    - Once the repository is cloned, VSCode will prompt you to open it.
-    - Click `Open` to start working on your project.
+   - Once cloned, I opened the folder in VSCode to view the `C` and `CXX` directories.
 
 5. **Make Changes and Commit**
-    - Edit files in the repository as needed.
-    - Go to the Source Control view in VSCode.
-    - Stage your changes, write a commit message, and commit the changes.
+   - After editing `hash_fn.c` and `hash_fn.cpp`, I used the **Source Control** view.
+   - I clicked the `+` button to stage files.
+   - I entered a descriptive commit message (e.g., "Optimize hash function") and clicked **Commit**.
 
 6. **Push Changes to GitHub**
-    - After committing, click the `Sync Changes` button in the Source Control view.
-    - This will push your changes to the GitHub repository.
+   - I clicked the **Sync Changes** button to push my code to the remote repository.
 
-## Additional Tips
-- Use the built-in terminal in VSCode for advanced Git commands.
-- Enable GitLens extension for enhanced Git insights.
+## My Experience on Windows
+- **Using Makefile.bat:** Since I am on Windows, I learned that I cannot use the standard `make` command. Instead, I used the integrated terminal (PowerShell) to run:
+  ```powershell
+  .\Makefile.bat all
+  ```
+This script successfully compiled both C and C++ versions of my assignment.
 
-By following these steps, you can easily connect and manage your GitHub repositories using Visual Studio Code.
+- Path Separators: I noticed that Windows uses backslashes (`\`) for file paths in the terminal, unlike Linux which uses forward slashes (`/`).
