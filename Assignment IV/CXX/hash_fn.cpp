@@ -16,9 +16,16 @@
  */
 #include "hash_fn.hpp"
 
-/*
-    Uses a hybrid approach: multiplies the accumulator by a prime (31) 
-    and adds the current digit. This ensures zero-digits don't zero out the hash.
+/**
+ * @brief Computes the hash index for an integer key.
+ *
+ * Implements a robust hashing logic that mixes multiplication (by prime 31)
+ * and addition. This design prevents the "zero-multiplication" bug where
+ * digits like 0 would otherwise zero out the entire hash value.
+ *
+ * @param key The integer key.
+ * @param m The hash table size.
+ * @return int The computed index (0 to m-1).
  */
 int myHashInt(int key, int m) {
     unsigned long digitProduct = 1;
@@ -32,9 +39,18 @@ int myHashInt(int key, int m) {
 
     return digitProduct % m;
 }
-/*
-    Implements the standard Polynomial Rolling Hash algorithm using prime 31.    
-*/
+/**
+ * @brief Computes the hash index for a std::string.
+ *
+ * Uses a Position-Weighted Polynomial Rolling Hash.
+ * By combining the character value, a prime multiplier (31), and the
+ * character's position, this function effectively distributes similar
+ * strings (like "cat", "act", "tac") to different indices.
+ *
+ * @param str The string object to hash.
+ * @param m The hash table size.
+ * @return int The computed index (0 to m-1).
+ */
 int myHashString(const std::string& str, int m) {
     unsigned long weightedSum = 0;
     int position = 1;

@@ -7,35 +7,63 @@ evaluate their efficiency, and understand their applications in computer science
 Developer: 許芷瑜  
 Email: s1131456@mail.yzu.edu.tw
 
+**Development Environment:**
+- **OS:** Windows 10/11
+- **Compiler:** GCC (MinGW) / G++
+- **Build Tool:** `Makefile.bat`
+- **Terminal:** VS Code Integrated Terminal (PowerShell)
+
 ## My Hash Function
 ### Integer Keys 
 - Formula / pseudocode:
   ```text
-  [Your implementation here]
+  hash = 1
+  p = 31 (Prime Multiplier)
+  Loop: hash = (hash * p) + current_digit
+  index = hash % m
   ```
-- Rationale: [Explain your design choices and how they minimize collisions.]
+- Rationale: I used a hybrid approach (`hash * 31 + digit`). This prevents zero-digits from zeroing out the result and ensures digit order matters (e.g., 12 vs 21).
 
 ### Non-integer Keys
 - Formula / pseudocode:
   ```text
-  [Your implementation here]
+  Polynomial Rolling Hash (Position Weighted):
+  hash = 0
+  p = 31
+  Loop: hash = (hash * p) + (char_value * position)
+  index = hash % m
   ```
-- Rationale: [Explain your approach and its effectiveness for non-integer keys.]
+- Rationale: I implemented a variant of the **Polynomial Rolling Hash**:
+  1. **Prime Multiplier (31):** Distributes keys uniformly to reduce collisions.
+  2. **Position Weighting:** Adds `* position` to distinguish anagrams (e.g., "cat" vs "act").
 
 ## Experimental Setup
 - Table sizes tested (m): 10, 11, 37
 - Test dataset:
   - Integers: 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60
-  - Strings: "cat", "dog", "bat", "cow", "ant", "owl", "bee", "hen", "pig", "fox"
-- Compiler: GCC and G++
-- Standard: C23 and C++23
+  - Strings: "cat", "act", "dog", "bat", "cow", "ant", "owl", "bee", "hen", "pig", "fox"
+- **Compiler Standard:** C11 (for C) and C++17 (for C++)
 
-## Results
-| Table Size (m) | Index Sequence         | Observation              |
-|----------------|------------------------|--------------------------|
-| 10             | 1, 2, 3, 4, ...        | Pattern repeats every 10 |
-| 11             | 10, 0, 1, 2, ...       | More uniform             |
-| 37             | 20, 21, 22, 23, ...    | Near-uniform             |
+### Result Snapshots
+Here are the execution results captured from my environment:
+
+**Integer Hash Output:**
+![Snapshot 1](snapshots/1.png)
+![Snapshot 2](snapshots/2.png)
+![Snapshot 3](snapshots/3.png)
+
+**String Hash Output:**
+![Snapshot 4](snapshots/4.png)
+![Snapshot 5](snapshots/5.png)
+![Snapshot 6](snapshots/6.png)
+  
+### Observations
+1. **Integer Hash Results:** - When **m = 10**, there is a clear pattern where numbers ending in the same digit (e.g., 21 and 51) collide. 
+   - When **m = 37 (Prime)**, the pattern disappears, and the keys are distributed uniformly across the table.
+
+2. **String Hash Results:**
+   - The Polynomial Rolling Hash successfully distinguishes anagrams like **"cat"** and **"act"**, assigning them different indices.
+   - Using a larger prime table size (**m = 37**) resulted in the fewest collisions compared to m = 10 or 11.
 
 ## Compilation, Build, Execution, and Output
 
@@ -78,101 +106,26 @@ Email: s1131456@mail.yzu.edu.tw
   .\C\hash_function_cpp.exe
   ```
 
-### Result Snapshot
-- Example output for integers:
-  ```
-  === Hash Function Observation (C Version) ===
-
-  === Table Size m = 10 ===
-  Key     Index
-  -----------------
-  21      1
-  22      2
-  ...
-
-  === Table Size m = 11 ===
-  Key     Index
-  -----------------
-  21      10
-  22      0
-  ...
-
-  === Table Size m = 37 ===
-  Key     Index
-  -----------------
-  21      21
-  22      22
-  ...
-
-  === Hash Function Observation (C++ Version) ===
-
-  === Table Size m = 10 ===
-  Key     Index
-  -----------------
-  21      1
-  22      2
-  ...
-
-  === Table Size m = 11 ===
-  Key     Index
-  -----------------
-  21      10
-  22      0
-  ...
-
-  === Table Size m = 37 ===
-  Key     Index
-  -----------------
-  21      21
-  22      22
-  ...
-  ```
-
-- Example output for strings:
-  ```
-  === String Hash (m = 10) ===
-  Key     Index
-  -----------------
-  cat     0
-  dog     0
-  ...
-
-  === String Hash (m = 11) ===
-  Key     Index
-  -----------------
-  cat     0
-  dog     0
-  ...
-
-  === String Hash (m = 37) ===
-  Key     Index
-  -----------------
-  cat     0
-  dog     0
-  ...
-  ```
-
-- Observations: Outputs align with the analysis, showing better distribution with prime table sizes.
-- Example output for integers:
-  ```
-  Hash table (m=10): [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
-  Hash table (m=11): [10, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-  Hash table (m=37): [20, 21, 22, 23, 24, 25, 26, 27, 28, 29, ...]
-  ```
-- Example output for strings:
-  ```
-  Hash table (m=10): ["cat", "dog", "bat", "cow", "ant", ...]
-  Hash table (m=11): ["fox", "cat", "dog", "bat", "cow", ...]
-  Hash table (m=37): ["bee", "hen", "pig", "fox", "cat", ...]
-  ```
-- Observations: Outputs align with the analysis, showing better distribution with prime table sizes.
 
 ## Analysis
-- Prime vs non-prime `m`: Prime table sizes generally result in better distribution and fewer collisions.
-- Patterns or collisions: Non-prime table sizes tend to produce repetitive patterns, leading to more collisions.
-- Improvements: Use a prime table size and a well-designed hash function to enhance distribution.
+
+- **Prime vs Non-prime `m`:** In my observation, when $m=10$ (non-prime), the hash index often correlates directly with the last digit of the key, leading to predictable collisions (e.g., 21 and 51). In contrast, using a prime number like $m=37$ effectively breaks these patterns and distributes keys uniformly across the table.
+
+- **Patterns or Collisions:** With simple summation, strings like "cat" and "act" would collide. However, my implementation of the **Polynomial Rolling Hash** uses position weighting (`char * position`) and a prime multiplier (31). This successfully assigns unique indices to anagrams, significantly reducing collision rates compared to basic methods.
+
+- **Improvements:** I upgraded the integer hash function from a simple multiplication (which failed on zeros) to a **hybrid approach** (`hash * 31 + digit`). This ensures that keys containing '0' (like 20 or 50) generate unique hash values instead of resetting to zero.
 
 ## Reflection
-1. Designing hash functions requires balancing simplicity and effectiveness to minimize collisions.
-2. Table size significantly impacts the uniformity of the hash distribution, with prime sizes performing better.
-3. The design using a prime table size and a linear transformation formula produced the most uniform index sequence.
+
+1. **Algorithm Design:** I learned that simple addition is not enough for hashing. For strings like "cat" and "act", I needed to use a **prime multiplier (31)** and **position** to make sure they have different hash values.
+
+2. **Fixing the "Zero" Bug:** I found a problem in my first integer hash function. If a number contained '0' (like 205), simple multiplication made the result 0. I fixed this by changing the formula to mix multiplication and addition.
+
+3. **Table Size Importance:** The assignment showed me why prime numbers are important. When I used $m=10$, many collisions happened because of the last digit. But with $m=37$, the indexes were spread out much better.
+
+## References
+1. **Choice of Multiplier (31)**: 
+   - I referenced this discussion to understand why the prime number **31** is widely used in string hashing (e.g., in Java).
+   - Source: [Stack Overflow - Why does Java's hashCode() in String use 31 as a multiplier?](https://stackoverflow.com/questions/299304/why-does-javas-hashcode-in-string-use-31-as-a-multiplier)
+2. **Polynomial Rolling Hash Algorithm**:
+   - Reference: [GeeksforGeeks - String Hashing using Polynomial Rolling Hash Function](https://www.geeksforgeeks.org/string-hashing-using-polynomial-rolling-hash-function/)
