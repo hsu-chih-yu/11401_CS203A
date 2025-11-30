@@ -48,11 +48,13 @@ Email: s1131456@mail.yzu.edu.tw
 Here are the execution results captured from my environment:
 
 **Integer Hash Output:**
+
 ![Snapshot 1](snapshots/1.png)
 ![Snapshot 2](snapshots/2.png)
 ![Snapshot 3](snapshots/3.png)
 
 **String Hash Output:**
+
 ![Snapshot 4](snapshots/4.png)
 ![Snapshot 5](snapshots/5.png)
 ![Snapshot 6](snapshots/6.png)
